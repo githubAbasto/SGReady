@@ -1,0 +1,6 @@
+{
+  "arch": "esp32",
+  "platform": "esp32",
+  "app_name": "SGReady",
+  "build_time_ms": 53392
+}

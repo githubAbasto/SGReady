@@ -1,0 +1,16 @@
+{
+    "mqtt": {
+        "server": "mqtt.symlink.se",
+        "user": "fredrik:fredrik",
+        "pass": "aivUGL6no"
+    },
+    "wifi": {
+        "sta" : {
+            "ssid": "MajasLoveNet",
+            "pass": "loveisintheair"
+        }
+    },
+    "site": {
+        "id": "svalangen"
+    }
+}

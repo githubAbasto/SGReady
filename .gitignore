@@ -4,8 +4,8 @@
 # Log file
 *.log
 
-# BlueJ files
-*.ctxt
+# config file with secretes
+config1.json
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
