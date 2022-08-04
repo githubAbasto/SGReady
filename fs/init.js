@@ -6,36 +6,34 @@ load('api_mqtt.js');
 load('api_timer.js');
 load('api_sys.js');
 
-
-
 let online = false;                               // Connected to the cloud?
-let SGReadyA=false;
-let SGReadyB=false; 
 
+//Pin Mapping
+let SGApin=33; 
+let SGBpin=32;
+let SGAvalue=0;
+let SGBvalue=0;
 
-let SGA=32;
-let SGB=33;
+GPIO.set_mode(SGApin, GPIO.MODE_OUTPUT);
+GPIO.set_mode(SGBpin, GPIO.MODE_OUTPUT); 
 
-GPIO.set_mode(32, GPIO.MODE_OUTPUT);
-GPIO.set_mode(33, GPIO.MODE_OUTPUT); 
+GPIO.setup_output(SGApin, 0);
+GPIO.setup_output(SGBpin, 0);
 
+//Update state every 30 second, and report to cloud if online
+Timer.set(600000, Timer.REPEAT, function() {
 
-// Init outputs to 0 (normal mode)
-GPIO.setup_output(SGA, 0);
-GPIO.setup_output(SGB, 0);
-
-Timer.set(5000, Timer.REPEAT, function() {
-    print('Timer publish to MQTT');      
+  if (online ){ 
     reportState();
-}, null);
-  
+  } 
+}, null) ;
+
 function reportState() {
     
     let sendMQTT = true;
-    let message =JSON.stringify({ "SGReady": SGReadyA,SGReadyB});
-    print ('Topic', message);
+    let message =JSON.stringify({ SGA: SGAvalue, SGB: SGBvalue });
     if (MQTT.isConnected() && sendMQTT) {
-      let topic = Cfg.get('site.id') + '/SGReady';
+      let topic = Cfg.get('site.id') + '/'+Cfg.get('site.position')+'/SGReady';
       print('== Publishing to ' + topic + ':', message);      
       MQTT.pub(topic, message, 0 /* QoS */);
 
@@ -45,31 +43,43 @@ function reportState() {
 
 } 
 
-MQTT.sub( Cfg.get('site.id') + '/SGReady', function(conn, topic, msg) {
+MQTT.sub( Cfg.get('site.id') + '/'+Cfg.get('site.position')+'/SGReady', function(conn, topic, msg) {
   print('Topic:', topic, 'message:', msg);
-  if (msg=="Normal") {
-    GPIO.setup_output(SGA, 0);
-    GPIO.setup_output(SGB, 0);
+  if (msg==='Normal') {
+    SGAvalue=0;
+    SGBvalue=0;
+    
   }
-  if (msg=='Inhibit'){
-    GPIO.setup_output(SGA, 1);
-    GPIO.setup_output(SGB, 0);
+  if (msg==='Inhibit') {
+    SGAvalue=1;
+    SGBvalue=0;
   }
-  if (msg=='LowPrice'){
-    GPIO.setup_output(SGA, 0);
-    GPIO.setup_output(SGB, 1);
+
+  if (msg==='LowPrice'){
+    SGAvalue=0;
+    SGBvalue=1;
   }
-  if(msg=='OverCapacity'){
-    GPIO.setup_output(SGA, 1);
-    GPIO.setup_output(SGB, 1);
+  if (msg==='OverCapacity'){
+    SGAvalue=1;
+    SGBvalue=1;
   }
-  
+  // Print help
+  if (msg==='') {
+    let message ="Valid payload:Normal,Inhibit,LowPrice,OverCapacity";
+    if (MQTT.isConnected()) {
+      let topic = Cfg.get('site.id') + '/'+Cfg.get('site.position')+'/SGReady';
+      print('== Publishing to ' + topic + ':', message);      
+      MQTT.pub(topic, message, 0 /* QoS */);
+    }
+  }
+  GPIO.setup_output(SGApin, SGAvalue);
+  GPIO.setup_output(SGBpin, SGBvalue);
 }, null);
 
 
 Event.on(Event.CLOUD_CONNECTED, function() {
   online = true;
-
+  GPIO.write(17,0); // LED ON wHen connected to cloud 
 }, null);
 
 Event.on(Event.CLOUD_DISCONNECTED, function() {

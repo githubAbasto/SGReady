@@ -1,5 +1,5 @@
-author: PowerConcern 
-description: MOngoose firmware for SG Ready control via mqtt
+author: Fredrik Svensson 
+description: A JS implentation of SG Ready relay driver (2pins) over MQTT
 # arch: PLATFORM
 version: 1.0
 manifest_version: 2017-05-18
@@ -9,27 +9,27 @@ mongoose_os_version: ${mos.version}
 
 config_schema:
   - [mqtt.enable", true]
-  - ["mqtt.server", "mqtt.symlink.se:1883"]
-  - ["mqtt.user","fredrik:fredrik"]
-  - ["mqtt.pass", "aivUGL6no"]
+  - ["mqtt.server", "192.168.0.199:1883"]
   - ["mqtt.cloud_events", true]
-  
-  
+  - ["mqtt.user",""]
+  - ["mqtt.password", ""]
   - ["wifi.ap.enable", false]
   - ["wifi.sta.enable", true]
-  - ["wifi.sta.ssid", "MajasLoveNet"]
-  - ["wifi.sta.pass", "loveisintheair"]
+  - ["wifi.sta.ssid", ""]
+  - ["wifi.sta.pass", ""]
 
-  - ["i2c.enable", true]
   - ["rpc.enable", true]
   - ["mqtt.enable", true]
-
-  - ["i2c.sda_gpio", 12]
-  - ["i2c.scl_gpio", 14]
-  - ["site.id", "svalangen"]
-
+ 
+  - ["site", "o", {hide: true}]
+  - ["site.id", "s",  "svalangen", {title: "Site name/location"}]
+  - ["site.position", "s", "f1255", {title: "Electrical cabinette position"}]
+  
 tags:
   - js
+  - c
+sources:
+ - src 
 
 build_vars:
 
@@ -37,14 +37,10 @@ filesystem:
   - fs
 
 libs:
- # - origin: https://github.com/mongoose-os-libs/boards
- # - origin: https://github.com/mongoose-os-libs/js-demo-bundle
  - origin:  https://github.com/mongoose-os-libs/mjs
- #- origin:  https://github.com/mongoose-os-libs/dallas-rmt
- #- origin:  https://github.com/githubAbasto/OneWire.git
  - origin:  https://github.com/mongoose-os-libs/mqtt
  - origin: https://github.com/mongoose-os-libs/wifi
  - origin: https://github.com/mongoose-os-libs/rpc-service-config
  - origin: https://github.com/mongoose-os-libs/rpc-service-fs
  - origin: https://github.com/mongoose-os-libs/rpc-uart
- #- origin: https://github.com/mongoose-os-libs/bme280
+
