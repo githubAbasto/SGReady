@@ -15,12 +15,14 @@ config_schema:
   - ["mqtt.password", ""]
   - ["wifi.ap.enable", false]
   - ["wifi.sta.enable", true]
-  - ["wifi.sta.ssid", ""]
+  - ["wifi.sta.ssid", "MajasLoveNet"]
   - ["wifi.sta.pass", ""]
 
   - ["rpc.enable", true]
   - ["mqtt.enable", true]
- 
+  - ["i2c.scl_gpio", "i", 16, {title: "Pin to use for SCL"}]
+  - ["i2c.sda_gpio", "i", 13, {title: "Pin to use for SDA"}] 
+  - ["i2c.enable", "b", true, {title: "Enable I2C"}]
   - ["site", "o", {hide: true}]
   - ["site.id", "s",  "svalangen", {title: "Site name/location"}]
   - ["site.position", "s", "f1255", {title: "Electrical cabinette position"}]
@@ -38,9 +40,14 @@ filesystem:
 
 libs:
  - origin:  https://github.com/mongoose-os-libs/mjs
+ - origin:  https://github.com/mongoose-os-libs/ca-bundle
  - origin:  https://github.com/mongoose-os-libs/mqtt
  - origin: https://github.com/mongoose-os-libs/wifi
  - origin: https://github.com/mongoose-os-libs/rpc-service-config
  - origin: https://github.com/mongoose-os-libs/rpc-service-fs
  - origin: https://github.com/mongoose-os-libs/rpc-uart
-
+ - origin: https://github.com/mongoose-os-libs/rpc-service-ota
+ - origin: https://github.com/mongoose-os-libs/rpc-ws
+ - origin: https://github.com/mongoose-os-libs/ota-http-server
+ - origin: https://github.com/mongoose-os-libs/i2c
+ - origin: https://github.com/mongoose-os-libs/dash  

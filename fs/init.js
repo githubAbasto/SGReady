@@ -20,7 +20,7 @@ GPIO.set_mode(SGBpin, GPIO.MODE_OUTPUT);
 GPIO.setup_output(SGApin, 0);
 GPIO.setup_output(SGBpin, 0);
 
-//Update state every 30 second, and report to cloud if online
+//Update state every 60 second, and report to cloud if online
 Timer.set(600000, Timer.REPEAT, function() {
 
   if (online ){ 
