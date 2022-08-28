@@ -1,16 +1,16 @@
 {
     "mqtt": {
         "server": "mqtt.symlink.se",
-        "user": "fredrik:fredrik",
-        "pass": "aivUGL6no"
+        "user": "lokaltodlat:lotrosa",
+        "pass": "imTIK5c9RRYi"
     },
     "wifi": {
         "sta" : {
-            "ssid": "MajasLoveNet",
-            "pass": "loveisintheair"
+            "ssid": "LokaltOdlat Trosa",
+            "pass": "123lokaltodlat841"
         }
     },
     "site": {
-        "id": "svalangen"
+        "id": "trosa"
     }
 }

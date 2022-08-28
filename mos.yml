@@ -13,8 +13,8 @@ config_schema:
   - ["mqtt.cloud_events", true]
   - ["mqtt.user",""]
   - ["mqtt.password", ""]
-  - ["wifi.ap.enable", false]
-  - ["wifi.sta.enable", true]
+  - ["wifi.ap.enable", true]
+  - ["wifi.sta.enable", false]
   - ["wifi.sta.ssid", "MajasLoveNet"]
   - ["wifi.sta.pass", ""]
 
@@ -50,4 +50,5 @@ libs:
  - origin: https://github.com/mongoose-os-libs/rpc-ws
  - origin: https://github.com/mongoose-os-libs/ota-http-server
  - origin: https://github.com/mongoose-os-libs/i2c
+ - origin: https://github.com/mongoose-os-libs/wifi-setup-web-ui
  - origin: https://github.com/mongoose-os-libs/dash  
